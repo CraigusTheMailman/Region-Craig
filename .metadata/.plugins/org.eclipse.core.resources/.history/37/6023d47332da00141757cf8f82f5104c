@@ -1,0 +1,8 @@
+package me.Craig.region;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Region extends JavaPlugin {
+
+	
+}

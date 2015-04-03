@@ -1,0 +1,31 @@
+package me.Craig.region;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import me.Craig.region.util.Region;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Regions extends JavaPlugin {
+
+	private static List<Region> regions = new ArrayList<>();
+	
+	public static Region getRegion(String name) {
+		for(Region region : getRegions()) {
+			if(region.getName().equalsIgnoreCase(name)) {
+				return region;
+			}
+		}
+		return null;
+	}
+	
+	public static List<Region> getRegions() {
+		return regions;
+	}
+	
+	public void setRegions(List<Region> regions) {
+		Regions.regions = regions;
+	}
+	
+}

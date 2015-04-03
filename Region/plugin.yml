@@ -1,0 +1,10 @@
+name: Regions-Craig
+author: CraigtheMailman
+version: 1.0
+main: me.Craig.region.Regions
+description: A region plugin.
+commands:
+  region:
+    usage: /<command>
+    description: Define regions
+    aliases: [rg, regions]

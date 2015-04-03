@@ -1,0 +1,55 @@
+package me.Craig.region.commands;
+
+import java.util.List;
+
+import me.Craig.region.Regions;
+import me.Craig.region.util.Region;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+public class RegionCommand implements CommandExecutor{
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+		
+		if(args.length == 0) {
+			sender.sendMessage("§c§lRegion Help");
+			sender.sendMessage("§8> §e/region create §3<Name>");
+			sender.sendMessage("§8> §e/region list");
+			sender.sendMessage("§8> §e/region tp §3<Name>");
+			sender.sendMessage("§8> §e/region delete §3<Name>");
+			
+		}
+		else {
+			
+			String cmd = args[0];
+			
+			if(cmd.equalsIgnoreCase("create")) {
+				
+			}
+			else if(cmd.equalsIgnoreCase("list")) {
+				
+				List<Region> list = Regions.getRegions();
+				
+				if(list.size() > 0) {
+					
+					sender.sendMessage("§aDefined Regions (§b" + list.size() + "§a): §e" + list.toString());
+				}else {
+					sender.sendMessage("§cNo defined regions!");
+				}
+				
+			}
+			else if(cmd.equalsIgnoreCase("delete")) {
+				
+			}
+			else {
+				sender.sendMessage("§cUnknown command! Type /region for help");
+			}
+		}
+		
+		return true;
+	}
+
+}

@@ -1,0 +1,71 @@
+package me.Craig.region.listener;
+
+import java.util.List;
+
+import me.Craig.region.Regions;
+import me.Craig.region.util.Region;
+
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+
+public class BlockListener implements Listener{
+
+	@EventHandler
+	public void onPlace(BlockPlaceEvent event) {
+		Player player = event.getPlayer();
+		Block block = event.getBlock();
+		
+		Region rg = getRegionHere(block.getLocation());
+		if(rg != null && !rg.getOwner().equals(player.getName())) {
+			player.sendMessage("§cYou don't have " + rg.getOwner() + "'s permission!");
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onBreak(BlockBreakEvent event) {
+		Player player = event.getPlayer();
+		Block block = event.getBlock();
+		
+		Region rg = getRegionHere(block.getLocation());
+		if(rg != null && !rg.getOwner().equals(player.getName())) {
+			player.sendMessage("§cYou don't have " + rg.getOwner() + "'s permission!");
+			event.setCancelled(true);
+		}
+	}
+	
+	private static Region getRegionHere(Location loc) {
+		
+		List<Region> regionList = Regions.getRegions();
+		for(Region rg: regionList) {
+			
+			Location p1 = rg.getP1();
+			Location p2 = rg.getP2();
+			
+			int minX = p1.getBlockX() < p2.getBlockX() ? p1.getBlockX() : p2.getBlockX();
+			int minY = p1.getBlockY() < p2.getBlockY() ? p1.getBlockY() : p2.getBlockY();
+			int minZ = p1.getBlockZ() < p2.getBlockZ() ? p1.getBlockZ() : p2.getBlockZ();
+			
+			int maxX = p1.getBlockX() > p2.getBlockX() ? p1.getBlockX() : p2.getBlockX();
+			int maxY = p1.getBlockY() > p2.getBlockY() ? p1.getBlockY() : p2.getBlockY();
+			int mAXZ = p1.getBlockZ() > p2.getBlockZ() ? p1.getBlockZ() : p2.getBlockZ();
+			
+			if(loc.getBlockX() >= minX && loc.getBlockX() <= maxX) {
+				if(loc.getBlockY() >= minY && loc.getBlockY() <= maxY) {
+					if(loc.getBlockZ() >= minZ && loc.getBlockZ() <= maxZ) {
+					
+						return rg;
+					}
+				}
+			}
+			
+		}
+		
+		return null;
+	}
+}

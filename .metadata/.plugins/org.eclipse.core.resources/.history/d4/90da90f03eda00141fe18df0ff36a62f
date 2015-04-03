@@ -1,0 +1,59 @@
+package me.Craig.region;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import me.Craig.region.commands.RegionCommand;
+import me.Craig.region.listener.BlockListener;
+import me.Craig.region.listener.InteractListener;
+import me.Craig.region.util.Region;
+import me.Craig.region.util.WandPoints;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.message.Message;
+import org.apache.logging.log4j.message.MessageFactory;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Regions extends JavaPlugin {
+
+	private static List<Region> regions = new ArrayList<>();
+	private static Map<String, WandPoints> wandStorage  = new HashMap<>();
+	
+	public static Logger logger = new Logger("Minecraft") {
+	
+	public void onEnable() {
+		getCommand("region").setExecutor(new RegionCommand());
+		getServer().getPluginManager().registerEvents(new InteractListener(), this);
+		getServer().getPluginManager().registerEvents(new BlockListener(), this);
+	}
+
+	public static Map<String, WandPoints> getWandStorage() {
+		return wandStorage;
+	}
+	
+	public static void setWandStorage(Map<String, WandPoints> wandStorage) {
+		Regions.wandStorage = wandStorage;
+	}
+	
+	public static Region getRegion(String name) {
+		for(Region region : getRegions()) {
+			if(region.getName().equalsIgnoreCase(name)) {
+				return region;
+			}
+		}
+		return null;
+	}
+	
+	public static List<Region> getRegions() {
+		return regions;
+	}
+	
+	public static void setRegions(List<Region> regions) {
+		Regions.regions = regions;
+	}
+	
+}
